@@ -9,22 +9,22 @@ class CepController extends Controller
 {
     public function search($ceps)
     {
-        // Separar os Ceps pela vírgula
+        // Separando os CEPS por virgula
         $cepArray = explode(',', $ceps);
 
         $results = [];
 
         foreach ($cepArray as $cep) {
-            // Remover qualquer caractere não numérico
+            // Removendo caracteres que não são númericos
             $cep = preg_replace('/\D/', '', $cep);
 
-            // Consultar a API do ViaCEP
+            // Conta na api Via CEP
             $response = Http::get("https://viacep.com.br/ws/{$cep}/json/");
 
             if ($response->ok()) {
                 $data = $response->json();
                 
-                // Reorganizar os dados
+                // Organizando dados
                 $results[] = [
                     // Removendo caracteres não númericos com Regex
                     'cep' =>  preg_replace('/\D/', '', $data['cep']), 
@@ -40,7 +40,7 @@ class CepController extends Controller
                     'siafi' => $data['siafi']
                 ];
             } else {
-                // Se o CEP não for encontrado, adicionar um erro ou mensagem padrão
+                // Se o CEP não for encontrado, retorna um erro
                 $results[] = [
                     'cep' => $cep,
                     'error' => 'CEP não encontrado ou inválido'
@@ -48,7 +48,7 @@ class CepController extends Controller
             }
         }
 
-        // Retornar a resposta como JSON
+        // Retornar a resposta como JSON padronizada em formato UTF
         return response()->json($results, 200, [], JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT);
     }
 }

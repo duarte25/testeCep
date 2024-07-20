@@ -10,11 +10,12 @@ Para instalar as dependências do projeto, siga os passos abaixo:
 
 1. Clone o repositório:
 
-3. Instale as dependências do projeto usando Composer:
+2. Instale as dependências do projeto usando Composer:
 
     ```bash
     composer install
     ```
+3. Altere o .env.example para .env
 
 ## Inicialize a aplicação
 
